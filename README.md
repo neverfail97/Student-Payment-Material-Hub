@@ -111,3 +111,5 @@ After sign-in, the dashboard works the same way as before:
 7. Download the weekly PDF.
 
 The new account controls are limited to signing in/out and password recovery; the main dashboard styling and controls remain unchanged.
+
+https://student-payment-material-hub.onrender.com/
