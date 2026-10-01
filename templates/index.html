@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ClassPay • Student Manager</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/style.css"></head><body>
+<header class="hero"><div><div class="eyebrow">CLASS REPRESENTATIVE • LIVE DASHBOARD</div><h1>Student Payment <span>&</span> Material Hub</h1><p>One place to collect payments, track balances and mark every material received.</p></div><div class="account-tools"><button class="report-btn" id="reportBtn"><span class="pdf-icon" aria-hidden="true">PDF</span><span>Weekly PDF</span></button><button class="account-btn" id="accountBtn">Sign in</button></div></header>
+<main>
+<section class="stats" id="stats"><div class="stat s1"><div class="ico">👥</div><strong id="totalStudents">0</strong><span>Students</span></div><div class="stat s2"><div class="ico">₹</div><strong id="totalRequired">₹0</strong><span>Required</span></div><div class="stat s3"><div class="ico">✓</div><strong id="totalPaid">₹0</strong><span>Collected</span></div><div class="stat s4"><div class="ico">!</div><strong id="totalPending">₹0</strong><span>Balance</span></div><div class="stat s5"><div class="ico upi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 13h7l-1 9 10-13h-7z"/></svg></div><strong id="upi">₹0</strong><span>UPI</span></div><div class="stat s6"><div class="ico cash-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h13A2.5 2.5 0 0 1 21 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 16.5z"/><path d="M7 10h10v4H7z"/><circle cx="12" cy="12" r="1.5"/></svg></div><strong id="cash">₹0</strong><span>Cash</span></div></section>
+<section class="grid2"><div class="panel accent"><div class="panel-title"><div><span class="tag">SETUP</span><h2>Class Settings</h2></div><span>⚙️</span></div><div class="form-grid"><label>Common required amount<input id="commonAmount" type="number" min="1" step="1"></label><label>Required materials <small>comma separated</small><input id="requiredMaterials" placeholder="Notes, Lab Manual, Record Note"></label></div><button id="saveSettings" class="primary">Save class settings</button><p class="hint">Changing the common amount updates every student's required amount.</p></div>
+<div class="panel"><div class="panel-title"><div><span class="tag green">STUDENTS</span><h2>Add a student</h2></div><span>＋</span></div><form id="studentForm" class="form-grid"><label>Student ID / Roll No<input id="rollNo" required placeholder="e.g. 17"></label><label>Name<input id="studentName" required placeholder="Full name"></label><button class="primary full">Add student</button></form></div></section>
+<section class="panel workflow"><div class="panel-title"><div><span class="tag purple">ONE ENTRY</span><h2>Student + Payment + Materials</h2></div><span>⚡</span></div><div class="student-picker"><label>Student <input id="studentSearch" placeholder="Type name or ID to search…"><select id="entryStudent"></select></label><label>Date<input id="entryDate" type="date"></label></div><div class="entry-columns"><div class="entry-box"><h3>💰 Payment</h3><div class="form-grid"><label>Amount paid<input id="entryAmount" type="number" min="1" step="1" placeholder="0"><small id="amountHint" class="amount-hint"></small></label><label>Mode<select id="entryMode"><option>UPI</option><option>Cash</option></select></label><label class="wide">UPI transaction / cash note<input id="entryDetails" placeholder="Optional"></label></div></div><div class="entry-box"><h3>📚 Materials</h3><div id="materialChecks" class="checks"></div></div></div><button id="saveEntry" class="primary big">Save student update <span class="button-glow" aria-hidden="true"></span></button></section>
+<section class="panel"><div class="panel-title records-head"><div><span class="tag orange">RECORDS</span><h2>Student Records</h2></div><div class="filters"><input id="recordSearch" placeholder="🔎 Search name / ID"><select id="statusFilter"><option value="all">All payment status</option><option>Paid</option><option>Pending</option><option>Unpaid</option><option>Amount Exceeding</option></select><select id="materialFilter"><option value="all">All materials</option><option value="0">0 received</option><option value="1">1 received</option><option value="2">2 received</option><option value="3">3 received</option></select></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Student</th><th>Required</th><th>Paid</th><th>Balance</th><th>Excess</th><th>Mode</th><th>Payment</th><th>Materials</th><th>Edit</th></tr></thead><tbody id="studentTable"></tbody></table></div></section>
+</main>
+<div id="authOverlay" class="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-brand">CLASS <span>PAY</span></div>
+    <h2 id="authTitle">Sign in to your dashboard</h2>
+    <p id="authSubtitle">Your student records are saved securely to your online account.</p>
+    <form id="authForm">
+      <label>Email<input id="authEmail" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+      <label>Password<input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••"></label>
+      <button class="primary full" id="authSubmit" type="submit">Sign in</button>
+    </form>
+    <button class="auth-switch" id="authSwitch">Create a new account</button>
+    <button class="auth-forgot" id="forgotBtn">Forgot password?</button>
+    <p id="authMessage" class="auth-message"></p>
+    <small class="auth-note">Use the same email account on any device to access the same data.</small>
+  </div>
+</div>
+<div id="accountMenu" class="account-menu">
+  <div id="accountEmail"></div>
+  <button id="logoutBtn">Sign out</button>
+</div>
+<div id="toast"></div>
+<div id="editModal" class="modal"><div class="modal-card"><button class="close" onclick="closeEdit()">×</button><span class="tag orange">EDIT RECORD</span><h2 id="editTitle">Edit student</h2><input type="hidden" id="editId"><div class="form-grid"><label>Student ID / Roll No<input id="editRoll"></label><label>Name<input id="editName"></label></div><hr><h3>Add / update payment</h3><div class="form-grid"><label>Amount<input id="editAmount" type="number" min="1" step="1"></label><label>Mode<select id="editMode"><option>UPI</option><option>Cash</option></select></label><label>Date<input id="editDate" type="date"></label><label>Details<input id="editDetails"></label></div><div id="paymentHistory" class="history"></div><hr><h3>Materials</h3><div id="editMaterials" class="checks"></div><div class="modal-actions"><button class="secondary" onclick="closeEdit()">Cancel</button><button class="primary" id="saveEdit">Save changes</button></div></div></div><script>
+window.SUPABASE_CONFIG = {{ supabase_config|tojson }};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/static/app.js"></script></body></html>
